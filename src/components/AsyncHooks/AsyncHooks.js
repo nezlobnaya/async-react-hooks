@@ -1,58 +1,41 @@
 import React, { useState, useEffect } from 'react'
 
-// function useGiphy(query) {
-//     const [results, setResults] = useState([]);
-//     const [loading, setLoading] = useState(false);
+
+function useGiphy(query) {
+    const [results, setResults] = useState([]);
+    const [loading, setLoading] = useState(false);
   
-//     useEffect(() => {
-//       async function fetchData() {
-//         try {
-//           setLoading(true);
-//           const response = await fetch(
-//             `https://api.giphy.com/v1/gifs/search?api_key=ySGo48L37OkJ0cGH1zAfrGr8yobgFMQt&q=${query}&limit=10&offset=0&rating=G&lang=en`
-//           );
-//           const json = await response.json();
-//           console.log(json)
-//           setResults(
-//             json.data.map(item => {
-//               return item.images.preview.mp4;
-//             })
-//           );
-//         } finally {
-//           setLoading(false);
-//         }
-//       }
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          setLoading(true);
+          const response = await fetch(
+            `https://api.giphy.com/v1/gifs/search?api_key=**************************=${query}&limit=10&offset=0&rating=G&lang=en`
+          );
+          const json = await response.json();
+          setResults(
+            json.data.map(item => {
+              return item.images.preview.mp4;
+            })
+          );
+        } finally {
+            setLoading(false)
+        }
+        
+      }
   
-//       if (query !== '') {
-//         fetchData();
-//       }
-//     }, [query]);
+      if (query !== '') {
+        fetchData();
+      }
+    }, [query]);
   
-//     return [results, loading];
-//   }
+    return[results, loading];
+  }
 
 export default function AsyncHooks() {
     const[search, setSearch] = useState('')
     const[query, setQuery] = useState('');
-    const[results, setResults] = useState([]);
-    
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response =await fetch(`https://api.giphy.com/v1/gifs/search?api_key=h4xr6xtNatRT8P3sn1rJ2R41o1k1Sbcg&q=${query}&limit=10&offset=0&rating=G&lang=en`)
-                const json = await response.json()
-                console.log({ json })
-                setResults(
-                    json.data.map(i => {
-                        return i.images.preview.mp4
-                    })
-                )
-            } catch (error) {}
-        }
-        if(query !=='') {
-            fetchData()
-        }
-    }, [query])
+    const[results, loading] = useGiphy(query);
    
     return (
         <div>
@@ -68,9 +51,9 @@ export default function AsyncHooks() {
                     <button type='submit' >Search</button>
             </form>
             <br />
-            {results.map(i => (
-                <video  autoPlay loop key={i} src={i} />
-            ))}
+            {loading ? (<h1>Give Me GIFs!</h1>) :(results.map(i => (
+                <video  autoPlay loop key={i} src={i} />))
+            )}
         </div>
     )
 }

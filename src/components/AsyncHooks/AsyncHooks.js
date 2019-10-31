@@ -39,7 +39,7 @@ export default function AsyncHooks() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response =await fetch(`https://api.giphy.com/v1/gifs/search?api_key=h4xr6xtNatRT8P3sn1rJ2R41o1k1Sbcg&q=cookie&limit=25&offset=0&rating=G&lang=en`)
+                const response =await fetch(`https://api.giphy.com/v1/gifs/search?api_key=h4xr6xtNatRT8P3sn1rJ2R41o1k1Sbcg&q=${query}&limit=10&offset=0&rating=G&lang=en`)
                 const json = await response.json()
                 console.log({ json })
                 setResults(
